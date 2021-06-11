@@ -19,7 +19,7 @@ namespace Microsoft.DotNet.PackageValidation
         public PackageValidationLogger(Logger log, string baselineFile, bool baselineAllErrors)
         {
             _log = log;
-            _suppressionEngine = SuppressionEngine.CreateFromSuppressionFile(baselineFile);
+            _suppressionEngine = SuppressionEngine.CreateFromFile(baselineFile);
             _baselineAllErrors = baselineAllErrors;
         }
 

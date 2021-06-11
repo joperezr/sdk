@@ -32,6 +32,14 @@ namespace Microsoft.DotNet.ValidationSuppression
         /// </summary>
         public string? Right { get; set; }
 
+        /// <summary>
+        /// <see langword="true"/> if the suppression is to be applied to a baseline suppression. <see langword="false"/> otherwise.
+        /// </summary>
+        public bool? IsBaselineSuppression { get; set; }
+
+        public bool ShouldSerializeIsBaselineSuppression()
+            => IsBaselineSuppression.HasValue;
+
         /// <inheritdoc/>
         public bool Equals(Suppression? other)
         {
@@ -39,12 +47,13 @@ namespace Microsoft.DotNet.ValidationSuppression
                    AreEqual(DiagnosticId, other.DiagnosticId) &&
                    AreEqual(Target, other.Target) &&
                    AreEqual(Left, other.Left) &&
-                   AreEqual(Right, other.Right);
+                   AreEqual(Right, other.Right) &&
+                   IsBaselineSuppression.GetValueOrDefault() == other.IsBaselineSuppression.GetValueOrDefault();
 
             bool AreEqual(string? first, string? second) 
                 => (string.IsNullOrEmpty(first?.Trim()) && string.IsNullOrEmpty(second?.Trim()) || StringComparer.InvariantCultureIgnoreCase.Equals(first?.Trim(), second?.Trim()));
         }
 
-        public override int GetHashCode() => HashCode.Combine(DiagnosticId?.ToLowerInvariant(), Target?.ToLowerInvariant(), Left?.ToLowerInvariant(), Right?.ToLowerInvariant());
+        public override int GetHashCode() => HashCode.Combine(DiagnosticId?.ToLowerInvariant(), Target?.ToLowerInvariant(), Left?.ToLowerInvariant(), Right?.ToLowerInvariant(), IsBaselineSuppression.GetValueOrDefault());
     }
 }

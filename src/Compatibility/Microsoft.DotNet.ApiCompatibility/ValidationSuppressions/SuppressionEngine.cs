@@ -38,14 +38,15 @@ namespace Microsoft.DotNet.ValidationSuppression
         /// <param name="left">Optional. The left operand in a APICompat error.</param>
         /// <param name="right">Optional. The right operand in a APICompat error.</param>
         /// <returns><see langword="true"/> if the error is already suppressed. <see langword="false"/> otherwise.</returns>
-        public bool IsErrorSuppressed(string? diagnosticId, string? target, string? left = null, string? right = null)
+        public bool IsErrorSuppressed(string? diagnosticId, string? target, string? left = null, string? right = null, bool? isBaselineSuppression = null)
         {
             var suppressionToCheck = new Suppression()
             {
                 DiagnosticId = diagnosticId,
                 Target = target,
                 Left = left,
-                Right = right
+                Right = right,
+                IsBaselineSuppression = isBaselineSuppression
             };
             return IsErrorSuppressed(suppressionToCheck);
         }
@@ -165,7 +166,7 @@ namespace Microsoft.DotNet.ValidationSuppression
         /// </summary>
         /// <param name="validationSuppressionFile">The path to the suppressions file to be used for initialization.</param>
         /// <returns>An instance of <see cref="SuppressionEngine"/>.</returns>
-        public static SuppressionEngine CreateFromSuppressionFile(string validationSuppressionFile)
+        public static SuppressionEngine CreateFromFile(string validationSuppressionFile)
             => new SuppressionEngine(validationSuppressionFile);
 
         /// <summary>

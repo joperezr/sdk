@@ -50,7 +50,7 @@ namespace Microsoft.DotNet.ValidationSuppression.Tests
         [Fact]
         public void SuppressionEngineDoesNotNeedFileToBeCreated()
         {
-            SuppressionEngine engine = SuppressionEngine.CreateFromSuppressionFile("AFileThatDoesNotExist.xml");
+            SuppressionEngine engine = SuppressionEngine.CreateFromFile("AFileThatDoesNotExist.xml");
         }
 
         [Fact]
@@ -78,6 +78,8 @@ namespace Microsoft.DotNet.ValidationSuppression.Tests
             engine.AddSuppression("CP0001", "T:A.B");
 
             Assert.True(engine.IsErrorSuppressed("CP0001", "T:A.B", "ref/net6.0/myLib.dll", "lib/net6.0/myLib.dll"));
+            Assert.True(engine.IsErrorSuppressed("CP0001", "T:A.B", "ref/net6.0/myLib.dll", "lib/net6.0/myLib.dll", false));
+            Assert.True(engine.IsErrorSuppressed("CP0001", "T:A.B", "ref/net6.0/myLib.dll", "lib/net6.0/myLib.dll", true));
         }
     }
 
